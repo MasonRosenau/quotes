@@ -6,7 +6,7 @@ import threading
 # Render a quote
 def render(quote):
     qid = f'quote-{quote.id}'
-    delete = Button('Remove', hx_delete=f'/{quote.id}',
+    delete = A('Remove', hx_delete=f'/{quote.id}',
                hx_swap='outerHTML', style='float: right', target_id=qid)
     return Card(
                 I(quote.title), 
@@ -16,7 +16,7 @@ def render(quote):
                 )
 
 # Returns app, router, table name, type of data in table
-app, rt, quotes, Quote = fast_app('quotes.db', live=True, render=render, 
+app, rt, quotes, Quote = fast_app('quotes.db', live=False, render=render, 
                                     id=int, title=str, date=str, pk='id')
 # Home page
 @rt('/')
