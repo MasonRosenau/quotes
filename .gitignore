@@ -1,0 +1,6 @@
+.env
+.sesskey
+__pycache__/
+*.pyc
+quotes.db
+*.log
