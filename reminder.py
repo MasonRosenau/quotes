@@ -3,13 +3,19 @@ import smtplib
 import logging
 from dotenv import load_dotenv
 
-# Logging configuration
-logging.basicConfig(
-    filename='reminder.log',
-    level=logging.INFO,
-    format='%(asctime)s - %(levelname)s - %(message)s',
-    datefmt='%Y-%m-%d %H:%M:%S'
-)
+# reminder.py info logger
+logger = logging.getLogger(__name__)
+logger.setLevel(logging.INFO)
+
+# Output to reminder.log
+file_handler = logging.FileHandler('reminder.log')
+file_handler.setLevel(logging.INFO)
+
+# Log time, level, location & msg
+formatter = logging.Formatter('%(asctime)s - %(levelname)s - %(filename)s:%(lineno)d - %(message)s', datefmt='%Y-%m-%d %H:%M:%S')
+file_handler.setFormatter(formatter)
+logger.addHandler(file_handler)
+logger.propagate = False  # Only propagate logs from this file
 
 def reminder_email():
     # Load and set env variables
@@ -31,15 +37,16 @@ def reminder_email():
         server = smtplib.SMTP("smtp.gmail.com", 587)
         server.starttls()
         server.login(sender, gmail_smtp_pw)
-        logging.info("SMTP server login successful.")
+        logger.info("SMTP server login successful.")
 
         # Send email
         server.sendmail(sender, recipient, content)
-        logging.info(f"Email sent to {recipient} successfully.")
+        logger.info(f"Email sent to {recipient} successfully.")
 
     except smtplib.SMTPException as e:
-        logging.error(f"Failed to send email: {e}")
+        logger.error(f"Failed to send email: {e}")
 
     finally:
         server.quit()
-        logging.info("SMTP server connection closed.")
+        logger.info("SMTP server connection closed.")
+
