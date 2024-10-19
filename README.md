@@ -25,5 +25,6 @@ A .env file will be needed to configure email reminders upon creating a quote. H
 SENDER="<email address of sender>"
 RECIPIENT="<email address of recipient>"
 GMAIL_SMTP_PW="<google app password>"
+APP_URL="<URL of your application>"
 ```
 To send emails from your gmail account using google's SMTP server, create a [Google App Password](https://myaccount.google.com/apppasswords) and paste it here.

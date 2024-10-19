@@ -23,13 +23,14 @@ def reminder_email():
     sender        = os.getenv("SENDER")
     recipient     = os.getenv("RECIPIENT")
     gmail_smtp_pw = os.getenv("GMAIL_SMTP_PW")
+    app_url       = os.getenv("APP_URL")
 
     # Construct email
     subject = "Quote Added"
-    message = """\
+    message = f"""\
     Hey there, a new quote has been added <3<br><br>
 
-    Check it out <a href="https://example.com/">here</a>."""
+    Check it out <a href="{app_url}">here</a>."""
     content = f'Subject: {subject}\nContent-Type: text/html\n\n{message}'
 
     try:
