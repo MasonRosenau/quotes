@@ -1,5 +1,5 @@
 from fasthtml.common import *
-from datetime import datetime
+from datetime import datetime, date
 from reminder import *
 import threading
 
@@ -60,4 +60,8 @@ def get_today():
 # Convert date string in the form of '2024-10-16 11:53:40.816433' to a prettier string
 def display_date(date_str):
     date_obj = datetime.strptime(date_str, '%Y-%m-%d %H:%M:%S.%f')
-    return date_obj.strftime('%B %d, %Y')
+    today = date.today()
+    if date_obj.date() == today:
+        return 'Today'
+    else:
+        return date_obj.strftime('%B %d, %Y')
