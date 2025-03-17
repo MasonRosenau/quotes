@@ -1,6 +1,7 @@
 from fasthtml.common import *
 from datetime import datetime, date
 from reminder import *
+from backup import *
 import threading
 
 # Render a quote
@@ -38,6 +39,7 @@ def make_input():
 @rt('/')
 def post(quote:Quote): # type: ignore (pylance)
     threading.Thread(target=send_quote_reminder).start()
+    threading.Thread(target=backup).start()
     quote.date = get_today()
     return quotes.insert(quote), make_input()
 
@@ -45,11 +47,16 @@ def post(quote:Quote): # type: ignore (pylance)
 @rt('/{qid}')
 def delete(qid:int):
     quotes.delete(qid)
+    threading.Thread(target=backup).start()
 
 # Serve application
 serve()
 
-# Send reminder email in another thread
+# Make backup of DB
+def backup():
+    backup_db()
+
+# Send reminder email
 def send_quote_reminder():
     reminder_email()
 
